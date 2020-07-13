@@ -1,5 +1,6 @@
 import pygame
 import playerClass
+import rectClass
 import random
 import math
 pygame.init()
@@ -9,14 +10,21 @@ area = pygame.Surface([3000,3000])
 playerimg = pygame.image.load("Sprites/creepy.png")
 screen = pygame.display.set_caption("RogueLike Game")
 screen = pygame.display.set_mode([800,600])
-rect1 = playerClass.colission(200,100,200,50,[170,170,170],True,"richard")
-rect2 = playerClass.colission(0,125,50,100,[170,170,170],False,"jhon")
-rect3 = playerClass.colission(0,500,800,100,[170,0,0],False,"nigger")
 playeR = playerClass.playerObject(0,300,3,1)
 
-sound = pygame.mixer.Sound("sound.wav")
+#sound = pygame.mixer.Sound("sound.wav")
 #sound.play()
-sound.set_volume(0.25)
+#sound.set_volume(0.25)
+rects = {}
+rectList = [rectClass.colission(200,100,200,50,[170,170,170],True,rects),
+			rectClass.colission(0,125,50,100,[170,170,170],False,rects),
+			rectClass.colission(0,500,800,100,[170,0,0],False,rects)
+			]
+rectNumber = range(0,len(rectList))
+def createColliders():
+	for name in rectNumber:
+		rectList[name].create(rects)
+
 while run:
 	clock.tick()
 	fps = clock.get_fps()
@@ -27,11 +35,9 @@ while run:
 	#Functions
 	playeR.playerInputCheck()
 	playeR.playerMove(fps)
-	playeR.playerColission()
-	rect1.create()
-	rect2.create()
-	rect3.create()
+	playeR.playerColission(rects)
+	createColliders()
 	#Drawing
-	screen.blit(playerimg,playeR.collisionRect)
+	#screen.blit(playerimg,playeR.collisionRect)
 	pygame.display.update()
 pygame.quit()
