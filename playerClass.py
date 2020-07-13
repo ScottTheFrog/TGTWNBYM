@@ -70,17 +70,15 @@ class playerObject:
 			rectcoordinates = rectlist[0] 
 
 			def act(a,b):
-				print(a)
-				print(b)
-				if b == 0:
-					self.location[a] -= self.velocity[a] -( rectcoordinates[a] + (self.location[a] -64))
+				if b == 1:
+					self.location[a] +=rectcoordinates[a] - (self.location[a] +64)
 					if rectlist[1]:
-						rectcoordinates[a] -= self.velocity[a]  *-0.5
+						rectcoordinates[a] += self.velocity[a]  
 
 				else:
-					self.location[a] -= self.velocity[a] -( (rectcoordinates[a] - rectcoordinates[a+2]) - self.location[a]) 
+					self.location[a] +=(rectcoordinates[a] + rectcoordinates[a+2]) - self.location[a]
 					if rectlist[1]:
-						rectcoordinates[a] += self.velocity[a] *0.5
+						rectcoordinates[a] += self.velocity[a]
 
 			if self.collisionRect.colliderect(rectcoordinates):
 
