@@ -17,15 +17,22 @@ playerInstance = playerClass.playerObject(0,300,3,1)
 #sound.play()
 #sound.set_volume(0.25)
 rects = {}
-rectList = [rectClass.colission(200,100,200,50,[170,170,170],True,rects),
-			rectClass.colission(0,125,50,100,[170,170,170],False,rects),
-			rectClass.colission(0,500,800,100,[170,0,0],False,rects)
-			]
+rectList = []
 rectNumber = range(0,len(rectList))
 def createColliders():
-	for name in rectNumber:
+	for name in rects:
+		rectList.append(rectClass.colission(rects[name][0][0],rects[name][0][1],
+								rects[name][0][2],rects[name][0][3],
+								rects[name][2],
+								rects[name][1],
+								rects))
+	for name in range(0,len(rectList)):
 		rectList[name].create(rects)
 
+print("OPENING PICKLE MAP FILE")
+pickleIN = open("map1.pickle", "rb")
+rects = pickle.load(pickleIN)
+pickleIN.close()
 while run:
 	clock.tick()
 	fps = clock.get_fps()
