@@ -1,5 +1,4 @@
 import pygame
-import math
 
 screen = pygame.display.set_mode([800,600])
 class playerObject:

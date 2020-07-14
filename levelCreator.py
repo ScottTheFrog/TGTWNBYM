@@ -1,16 +1,14 @@
 import pygame
 import rectClass
+import pickle
+output = input("MAP:")+".pickle"
 screen = pygame.display.set_mode([800,600])
 pygame.init()
 run = True
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode([800,600])
 rects = {}
-rectList = [rectClass.colission(200,100,200,50,[170,170,170],True,rects),
-			rectClass.colission(0,125,50,100,[170,170,170],False,rects),
-			rectClass.colission(0,500,800,100,[170,0,0],False,rects)
-
-			]
+rectList = []
 
 class AAAAAAAAAAAAAAAAA():
 	def __init__(self):
@@ -31,7 +29,6 @@ class AAAAAAAAAAAAAAAAA():
 			pygame.draw.rect(screen,[255,0,0],self.collisionRect)
 		else:
 			if self.createdCollider:
-				print(self.widthheight)
 				try:
 					self.color = "a"#input("COLOR : ")
 					self.color = self.color.split(" ")
@@ -47,10 +44,28 @@ class AAAAAAAAAAAAAAAAA():
 			self.startPos[1] = self.mousePos[1] 
 
 def createColliders():
+	for name in rects:
+		rectList.append(rectClass.colission(rects[name][0][0],rects[name][0][1],
+								rects[name][0][2],rects[name][0][3],
+								rects[name][2],
+								rects[name][1],
+								rects))
 	for name in range(0,len(rectList)):
 		rectList[name].create(rects)
 
 AAAAAAA = AAAAAAAAAAAAAAAAA()
+try:
+	print("OPENING PICKLE MAP FILE")
+	pickleIN = open(output, "rb")
+	rects = pickle.load(pickleIN)
+	pickleIN.close()
+except:
+	pickleOUT = open(output, "wb")
+	print("OVERWRITTEN PICKLE MAP FILE")
+	pickle.dump(rects, pickleOUT)
+print(rects)
+
+
 while run:
 	clock.tick()
 	for event in pygame.event.get():
@@ -58,7 +73,13 @@ while run:
 			run = False
 
 	screen.fill((255,255,255))
+
 	AAAAAAA.createCollider()
 	createColliders()
 	pygame.display.update()
+
+print(rects)
+pickleOUT = open(output, "wb")
+pickle.dump(rects, pickleOUT)
+pickleOUT.close()
 pygame.quit()
