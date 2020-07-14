@@ -26,16 +26,19 @@ def createColliders():
 								rects[name][2],
 								rects[name][1],
 								rects))
+def renderColliders():
 	for name in range(0,len(rectList)):
 		rectList[name].create(rects)
 
 print("OPENING PICKLE MAP FILE")
-pickleIN = open("map1.pickle", "rb")
+pickleIN = open("map2.pickle", "rb")
 rects = pickle.load(pickleIN)
 pickleIN.close()
+createColliders()
 while run:
 	clock.tick()
 	fps = clock.get_fps()
+	print(fps)
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			run = False
@@ -44,7 +47,7 @@ while run:
 	playerInstance.playerInputCheck()
 	playerInstance.playerMove(fps)
 	playerInstance.playerColission(rects)
-	createColliders()
+	renderColliders()
 	#Drawing
 	#screen.blit(playerimg,playeR.collisionRect)
 	pygame.display.update()
