@@ -43,15 +43,15 @@ class AAAAAAAAAAAAAAAAA():
 			self.startPos[0] = self.mousePos[0] 
 			self.startPos[1] = self.mousePos[1] 
 
-def createColliders():
-	for name in rects:
-		rectList.append(rectClass.colission(rects[name][0][0],rects[name][0][1],
-								rects[name][0][2],rects[name][0][3],
-								rects[name][2],
-								rects[name][1],
-								rects))
-	for name in range(0,len(rectList)):
-		rectList[name].create(rects)
+	def createColliders():
+		for name in rects:
+			rectList.append(rectClass.colission(rects[name][0][0],rects[name][0][1],
+									rects[name][0][2],rects[name][0][3],
+									rects[name][2],
+									rects[name][1],
+									rects))
+		for name in range(0,len(rectList)):
+			rectList[name].create(rects)
 
 AAAAAAA = AAAAAAAAAAAAAAAAA()
 try:
@@ -75,7 +75,7 @@ while run:
 	screen.fill((255,255,255))
 
 	AAAAAAA.createCollider()
-	createColliders()
+	AAAAAAA.createColliders()
 	pygame.display.update()
 
 print(rects)

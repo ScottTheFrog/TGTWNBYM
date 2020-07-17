@@ -2,7 +2,7 @@ import pygame
 import playerClass
 import rectClass
 import random
-import pickle
+from createColliders import cCollider
 
 pygame.init()
 run = True
@@ -16,25 +16,9 @@ playerInstance = playerClass.playerObject(0,300,3,1)
 #sound = pygame.mixer.Sound("sound.wav")
 #sound.play()
 #sound.set_volume(0.25)
-rects = {}
-rectList = []
-rectNumber = range(0,len(rectList))
-def createColliders():
-	for name in rects:
-		rectList.append(rectClass.colission(rects[name][0][0],rects[name][0][1],
-								rects[name][0][2],rects[name][0][3],
-								rects[name][2],
-								rects[name][1],
-								rects))
-def renderColliders():
-	for name in range(0,len(rectList)):
-		rectList[name].create(rects)
-
-print("OPENING PICKLE MAP FILE")
-pickleIN = open("map2.pickle", "rb")
-rects = pickle.load(pickleIN)
-pickleIN.close()
-createColliders()
+colliderCreator = cCollider()
+colliderCreator.loadPickle()
+colliderCreator.createColliders()
 while run:
 	clock.tick()
 	fps = clock.get_fps()
@@ -46,8 +30,9 @@ while run:
 	#Functions
 	playerInstance.playerInputCheck()
 	playerInstance.playerMove(fps)
-	playerInstance.playerColission(rects)
-	renderColliders()
+	playerInstance.playerColission(colliderCreator.rects)
+	playerInstance.getColor()
+	colliderCreator.renderColliders()
 	#Drawing
 	#screen.blit(playerimg,playeR.collisionRect)
 	pygame.display.update()

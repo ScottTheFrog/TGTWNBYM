@@ -3,7 +3,7 @@ import pygame
 screen = pygame.display.set_mode([800,600])
 class playerObject:
 	def __init__(self,location,speed,friction,time):
-		self.location = [0.0,0.0]
+		self.location = [16.0,16.0]
 		self.speed = speed
 		self.velocity = [0.0,0.0]
 		self.friction = friction
@@ -11,7 +11,12 @@ class playerObject:
 		self.collisionRect = pygame.Rect(0,0,0,0)
 		self.time = time
 		self.colliding = 1
-
+		self.color = [0,0,0]
+	def getColor(self):
+		try:
+			self.color = [self.location[0]/5,self.location[1]/5,self.location[0]/5]
+		except:
+			self.color = [0,0,0]
 	def playerInputCheck(self):
 		##GET KEYPRESS INPUT FROM KEYBOARD AND CHANGE VECTOR VALUE
 		keypress = pygame.key.get_pressed()
@@ -34,7 +39,7 @@ class playerObject:
 		self.time = time
 		##MAKE collisionRect
 		self.collisionRect = pygame.Rect(self.location[0],self.location[1],16,16)
-		pygame.draw.rect(screen,[110,55,255],self.collisionRect)
+		pygame.draw.rect(screen,self.color,self.collisionRect)
 
 		##ADD VELOCITY TO THE LOCATION
 		self.location[0] += self.velocity[0]
@@ -60,13 +65,13 @@ class playerObject:
 
 			if self.collisionRect.colliderect(rectcoordinates):
 				##X
-				if self.location[0] + 16 >= rectcoordinates[0] and self.location[0] + 16 <= rectcoordinates[0]+13:
+				if self.location[0] + 16 >= rectcoordinates[0] and self.location[0] + 16 <= rectcoordinates[0]+16:
 					act(0,1)
 
 				elif self.location[0] <= (rectcoordinates[0] + rectcoordinates[2]) and self.location[0] >= (rectcoordinates[0] + rectcoordinates[2])-13:
 					act(0,0)
 				##Y
-				if self.location[1] + 16 >= rectcoordinates[1] and self.location[1] + 16 <= rectcoordinates[1]+13:
+				if self.location[1] + 16 >= rectcoordinates[1] and self.location[1] + 16 <= rectcoordinates[1]+16:
 					act(1,1)
 
 				elif self.location[1] <= (rectcoordinates[1] + rectcoordinates[3]) and self.location[1] >= (rectcoordinates[1] + rectcoordinates[3]) -13:
