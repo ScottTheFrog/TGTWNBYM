@@ -12,10 +12,14 @@ class cCollider:
 									self.rects[name][0][2],self.rects[name][0][3],
 									self.rects[name][2],
 									self.rects[name][1],
-									self.rects))
+									self.rects,
+									self.rects[name][3]))
+	def FUCKINGBUGS(self,a,b,c,d,e,f,time):
+		import rectClass
+		self.rectList.append(rectClass.colission(a,b,c,d,e,f,self.rects,time))
 	def loadPickle(self):
 		import pickle
 		print("OPENING PICKLE MAP FILE")
-		pickleIN = open("maps/map1.pickle", "rb")
+		pickleIN = open("maps/map4.pickle", "rb")
 		self.rects = pickle.load(pickleIN)
 		pickleIN.close()

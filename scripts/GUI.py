@@ -9,10 +9,14 @@ class gameUI():
 		self.playMapButtonRect = pygame.Rect(64,64,256,64)
 		self.playMapButtonColor = [55,110,55]
 
+		self.createMapButtonRect = pygame.Rect(64,144,256,64)
+		self.createMapButtonColor = [110,22,22]
+
 		self.goToThis = 0
 		self.run = True
 	def drawUI(self):
 		pygame.draw.rect(screen,self.playMapButtonColor,self.playMapButtonRect)
+		pygame.draw.rect(screen,self.createMapButtonColor,self.createMapButtonRect)
 		pygame.draw.rect(screen,[255,0,0],self.mouseRect)
 
 	def getInput(self):
@@ -22,6 +26,9 @@ class gameUI():
 		self.mouseRect  = pygame.Rect(self.mousePos,[16,16])
 
 	def inputCheck(self):
-		self.goToThis = int(self.mouseRect.colliderect(self.playMapButtonRect)) * self.mouseClick[0] 
+		if self.mouseRect.colliderect(self.playMapButtonRect):
+			self.goToThis = self.mouseClick[0] 
+		elif self.mouseRect.colliderect(self.createMapButtonRect):
+			self.goToThis = self.mouseClick[0] * 2
 
 

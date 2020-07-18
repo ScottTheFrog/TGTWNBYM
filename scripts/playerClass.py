@@ -15,6 +15,8 @@ class playerObject:
 	def getColor(self):
 		try:
 			self.color = [self.location[1]/5,self.location[0]/5,self.location[1]/5]
+			if self.color[0] <= 0 or self.color[1] <= 0 or self.color[2] <= 0:
+				self.color = [0,0,0]
 		except:
 			self.color = [0,0,0]
 	def playerInputCheck(self):

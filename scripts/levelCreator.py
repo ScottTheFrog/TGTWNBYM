@@ -1,30 +1,60 @@
 import pygame
-import rectClass
-import pickle
-output = input("MAP:")+".pickle"
 screen = pygame.display.set_mode([800,600])
-pygame.init()
-run = True
-clock = pygame.time.Clock()
-screen = pygame.display.set_mode([800,600])
-rects = {}
-rectList = []
 
-class AAAAAAAAAAAAAAAAA():
+class CreateRECTS():
 	def __init__(self):
+		from createColliders import cCollider
+
+		self.cColliderObj = cCollider()
+		self.cColliderObj.createColliders()
+
+		self.cColliderObj.FUCKINGBUGS(-32,-32,1600,32,[0,0,0],False,94857)
+		self.cColliderObj.FUCKINGBUGS(800,-32,1600,1600,[0,0,0],False,780780)
+		self.cColliderObj.FUCKINGBUGS(-32,600,1600,32,[0,0,0],False,467467)
+		self.cColliderObj.FUCKINGBUGS(-32,-32,32,1600,[0,0,0],False,13513)
+
 		self.startPos = [300,300]
 		self.endPos = [300,300]
 		self.widthheight = [50,50]
 		self.createdCollider = False
 		self.color = [0,0,0]
-	def createCollider(self):
+		self.gettingInput = True
+		self.inputString = ""
+		self.output = "maps/map4.pickle"
+		self.delay = 1
+		self.mouseClick = 0
+		self.time = 0
+	def getInput(self):
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == 13:
+					self.gettingInput = False
+					print(self.output)
+				else:
+					self.inputString += event.unicode
+					print(self.inputString)
+		self.output = "maps/" + str(self.inputString)+".pickle" 
+
+
+
+	def createCollider(self,fps):
+		import math
+		self.cColliderObj.renderColliders()
 		self.mousePos = pygame.mouse.get_pos()
-		self.mouseClick =  pygame.mouse.get_pressed()[0]		
+		if self.delay <= 0:
+			self.mouseClick =  pygame.mouse.get_pressed()[0]
 		self.endPos[0] = self.mousePos[0] 
 		self.endPos[1] = self.mousePos[1]
+		if self.endPos[0] % 32 != 0:
+			self.endPos[0] = self.endPos[0] + (round(self.endPos[0]/32) - self.endPos[0]/32) *32
+
+		if self.endPos[1] % 32 != 0:
+			self.endPos[1] = self.endPos[1] + (round(self.endPos[1]/32) - self.endPos[1]/32) *32
+
 		self.widthheight = [(self.endPos[0] - self.startPos[0]),(self.endPos[1] - self.startPos[1])]
 		self.collisionRect = pygame.Rect(self.startPos,self.widthheight)
 		if self.mouseClick == 1:
+			self.time += fps
 			self.createdCollider = True
 			pygame.draw.rect(screen,[255,0,0],self.collisionRect)
 		else:
@@ -36,50 +66,31 @@ class AAAAAAAAAAAAAAAAA():
 				except:
 					print("ERROR WHILE TRYING TO DECODE COLOR")
 					self.color = [self.endPos[0]/5,self.startPos[1]/5,self.startPos[0]/5]
-				rectList.append(rectClass.colission(self.collisionRect[0],self.collisionRect[1],
-													self.collisionRect[2],self.collisionRect[3],
-													self.color,False,rects))
+
+				self.cColliderObj.FUCKINGBUGS(self.collisionRect[0],self.collisionRect[1],
+										self.collisionRect[2],self.collisionRect[3],
+										self.color,False,self.time)
+				print(self.time)
+
 				self.createdCollider = False
 			self.startPos[0] = self.mousePos[0] 
-			self.startPos[1] = self.mousePos[1] 
+			self.startPos[1] = self.mousePos[1]
 
-	def createColliders():
-		for name in rects:
-			rectList.append(rectClass.colission(rects[name][0][0],rects[name][0][1],
-									rects[name][0][2],rects[name][0][3],
-									rects[name][2],
-									rects[name][1],
-									rects))
-		for name in range(0,len(rectList)):
-			rectList[name].create(rects)
+			if self.startPos[0] % 32 != 0:
+				self.startPos[0] = self.startPos[0] + (round(self.startPos[0]/32) - self.startPos[0]/32) *32
 
-AAAAAAA = AAAAAAAAAAAAAAAAA()
-try:
-	print("OPENING PICKLE MAP FILE")
-	pickleIN = open(output, "rb")
-	rects = pickle.load(pickleIN)
-	pickleIN.close()
-except:
-	pickleOUT = open(output, "wb")
-	print("OVERWRITTEN PICKLE MAP FILE")
-	pickle.dump(rects, pickleOUT)
-print(rects)
+			if self.startPos[1] % 32 != 0:
+				self.startPos[1] = self.startPos[1] + (round(self.startPos[1]/32) - self.startPos[1]/32) *32
 
-
-while run:
-	clock.tick()
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			run = False
-
-	screen.fill((255,255,255))
-
-	AAAAAAA.createCollider()
-	AAAAAAA.createColliders()
-	pygame.display.update()
-
-print(rects)
-pickleOUT = open(output, "wb")
-pickle.dump(rects, pickleOUT)
-pickleOUT.close()
-pygame.quit()
+	def dumpPickle(self):
+		import pickle
+		pickleOUT = open(self.output, "wb")
+		pickle.dump(self.cColliderObj.rects, pickleOUT)
+		pickleOUT.close()
+		print("OVERWRITTEN PICKLE MAP FILE")
+	def openPickle(self):
+		import pickle
+		print("OPENING PICKLE MAP FILE")
+		pickleIN = open(self.output, "rb")
+		self.cColliderObj.rects = pickle.load(pickleIN)
+		pickleIN.close()

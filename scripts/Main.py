@@ -4,6 +4,7 @@ import rectClass
 import random
 from createColliders import cCollider
 from GUI import gameUI
+from levelCreator import CreateRECTS
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -21,14 +22,47 @@ playerInstance = playerClass.playerObject(0,300,3,1)
 #sound.set_volume(0.25)
 
 colliderCreator = cCollider()
-colliderCreator.loadPickle()
-colliderCreator.createColliders()
-def Play():
+def Create():
 	run = True
+	levelCreator = CreateRECTS()
+	#while levelCreator.gettingInput:
+	#		levelCreator.getInput() 
+	try:
+		levelCreator.openPickle()
+	except:
+		levelCreator.dumpPickle()
+	levelCreator.cColliderObj.createColliders()
 	while run:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				run = False
+				UI.run = False
+
+
+		clock.tick()
+		fps = clock.get_fps()
+
+		levelCreator.delay -= 1/fps
+		screen.fill((255,255,255))
+
+		levelCreator.cColliderObj.renderColliders()
+		levelCreator.createCollider(1/fps)
+
+		pygame.display.update()
+
+	levelCreator.dumpPickle()
+
+def Play():
+	run = True
+	colliderCreator.loadPickle()
+	colliderCreator.createColliders()
+
+	while run:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				run = False
+				UI.run = False
+
 
 		clock.tick()
 		fps = clock.get_fps()
@@ -60,10 +94,11 @@ def GUI():
 		UI.inputCheck()
 		UI.drawUI()
 		pygame.display.update()
-		
+
 		if UI.goToThis == 1:
 			Play()
-
+		if UI.goToThis == 2:
+			Create()
 GUI()
 
 pygame.quit()
