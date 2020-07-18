@@ -20,6 +20,6 @@ class cCollider:
 	def loadPickle(self):
 		import pickle
 		print("OPENING PICKLE MAP FILE")
-		pickleIN = open("maps/map4.pickle", "rb")
+		pickleIN = open("maps/map5.pickle", "rb")
 		self.rects = pickle.load(pickleIN)
 		pickleIN.close()

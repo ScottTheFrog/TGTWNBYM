@@ -20,7 +20,7 @@ class CreateRECTS():
 		self.color = [0,0,0]
 		self.gettingInput = True
 		self.inputString = ""
-		self.output = "maps/map4.pickle"
+		self.output = "maps/map5.pickle"
 		self.delay = 1
 		self.mouseClick = 0
 		self.time = 0

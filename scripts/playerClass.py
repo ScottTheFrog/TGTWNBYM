@@ -50,7 +50,6 @@ class playerObject:
 		##MULTIPLY THE DIRECTION BY THE SPEED
 		self.velocity[0] = self.directionVector[0] * self.speed * ( 1.0 /(self.time +1)) 
 		self.velocity[1] = self.directionVector[1] * self.speed * ( 1.0 /(self.time+1)) 
-
 	def playerColission(self,rects):
 		for rect in rects:
 			rectlist = rects.get(rect)
@@ -67,14 +66,14 @@ class playerObject:
 
 			if self.collisionRect.colliderect(rectcoordinates):
 				##X
-				if self.location[0] + 16 >= rectcoordinates[0] and self.location[0] + 16 <= rectcoordinates[0]+16:
+				if self.location[0] + 16 >= rectcoordinates[0] and self.location[0] + 16 <= rectcoordinates[0]+8:
 					act(0,1)
 
-				elif self.location[0] <= (rectcoordinates[0] + rectcoordinates[2]) and self.location[0] >= (rectcoordinates[0] + rectcoordinates[2])-13:
+				elif self.location[0] <= (rectcoordinates[0] + rectcoordinates[2]) and self.location[0] >= (rectcoordinates[0] + rectcoordinates[2])-8:
 					act(0,0)
 				##Y
-				if self.location[1] + 16 >= rectcoordinates[1] and self.location[1] + 16 <= rectcoordinates[1]+16:
+				if self.location[1] + 16 >= rectcoordinates[1] and self.location[1] + 16 <= rectcoordinates[1]+8:
 					act(1,1)
 
-				elif self.location[1] <= (rectcoordinates[1] + rectcoordinates[3]) and self.location[1] >= (rectcoordinates[1] + rectcoordinates[3]) -13:
+				elif self.location[1] <= (rectcoordinates[1] + rectcoordinates[3]) and self.location[1] >= (rectcoordinates[1] + rectcoordinates[3]) -8:
 					act(1,0)

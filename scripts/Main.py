@@ -15,7 +15,7 @@ screen = pygame.display.set_mode([800,600])
 
 UI = gameUI()
 
-playerInstance = playerClass.playerObject(0,300,3,1)
+playerInstance = playerClass.playerObject(0,200,3,1)
 
 #sound = pygame.mixer.Sound("sound.wav")
 #sound.play()
@@ -69,12 +69,13 @@ def Play():
 
 		screen.fill((255,255,255))
 
+		colliderCreator.renderColliders()
+
 		playerInstance.getColor()
 		playerInstance.playerInputCheck()
 		playerInstance.playerMove(fps)
 		playerInstance.playerColission(colliderCreator.rects)
 
-		colliderCreator.renderColliders()
 		#Drawing
 		#screen.blit(playerimg,playeR.collisionRect)
 		pygame.display.update()

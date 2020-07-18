@@ -14,4 +14,3 @@ class colission():
 		rectobj = rects.get(self.colliderName)[0]
 		color = rects.get(self.colliderName)[2]
 		pygame.draw.rect(screen,color,rectobj)
-		print(rectobj)
