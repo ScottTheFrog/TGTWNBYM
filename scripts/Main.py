@@ -5,6 +5,7 @@ import random
 from createColliders import cCollider
 from GUI import gameUI
 from levelCreator import CreateRECTS
+from textCreator import Text
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -17,6 +18,8 @@ UI = gameUI()
 
 playerInstance = playerClass.playerObject(0,200,3,1)
 
+fps = 60
+FPStext = Text(16,16,fps,40,[255,0,0])
 #sound = pygame.mixer.Sound("sound.wav")
 #sound.play()
 #sound.set_volume(0.25)
@@ -48,6 +51,7 @@ def Create():
 		levelCreator.cColliderObj.renderColliders()
 		levelCreator.createCollider(1/fps)
 
+		FPStext.render("FPS: "+str(round(fps)))
 		pygame.display.update()
 
 	levelCreator.dumpPickle()
@@ -75,7 +79,7 @@ def Play():
 		playerInstance.playerInputCheck()
 		playerInstance.playerMove(fps)
 		playerInstance.playerColission(colliderCreator.rects)
-
+		FPStext.render("FPS: "+str(round(fps)))
 		#Drawing
 		#screen.blit(playerimg,playeR.collisionRect)
 		pygame.display.update()
@@ -94,6 +98,8 @@ def GUI():
 		UI.getInput()
 		UI.inputCheck()
 		UI.drawUI()
+		FPStext.render("FPS: "+str(round(fps)))
+
 		pygame.display.update()
 
 		if UI.goToThis == 1:
