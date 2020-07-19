@@ -24,18 +24,6 @@ class CreateRECTS():
 		self.delay = 1
 		self.mouseClick = 0
 		self.time = 0
-	def getInput(self):
-		for event in pygame.event.get():
-			if event.type == pygame.KEYDOWN:
-				if event.key == 13:
-					self.gettingInput = False
-					print(self.output)
-				else:
-					self.inputString += event.unicode
-					print(self.inputString)
-		self.output = "maps/" + str(self.inputString)+".pickle" 
-
-
 
 	def createCollider(self,fps):
 		import math
@@ -94,3 +82,20 @@ class CreateRECTS():
 		pickleIN = open(self.output, "rb")
 		self.cColliderObj.rects = pickle.load(pickleIN)
 		pickleIN.close()
+
+	def getInput(self,event,event1,event2):
+		if event1 == 13:
+			self.output = "maps/" + str(self.inputString)+".pickle" 
+			try:
+				self.openPickle()
+				self.cColliderObj.createColliders()
+			except:
+				self.dumpPickle()
+			self.gettingInput = False
+		elif event1 == 8:
+			a = ""
+			for i in range(0,len(self.inputString)-1):
+				a += self.inputString[i]
+			self.inputString = a
+		else:
+			self.inputString += event2

@@ -19,7 +19,7 @@ UI = gameUI()
 playerInstance = playerClass.playerObject(0,200,3,1)
 
 fps = 60
-FPStext = Text(16,16,fps,40,[255,0,0])
+FPStext = Text(16,16,fps,30,[0,0,0])
 #sound = pygame.mixer.Sound("sound.wav")
 #sound.play()
 #sound.set_volume(0.25)
@@ -28,28 +28,26 @@ colliderCreator = cCollider()
 def Create():
 	run = True
 	levelCreator = CreateRECTS()
-	#while levelCreator.gettingInput:
-	#		levelCreator.getInput() 
-	try:
-		levelCreator.openPickle()
-	except:
-		levelCreator.dumpPickle()
-	levelCreator.cColliderObj.createColliders()
+	MapInputText = Text(300,250,levelCreator.inputString,50,[0,0,0])
 	while run:
 		for event in pygame.event.get():
+			if levelCreator.gettingInput:
+				if event.type == pygame.KEYDOWN:
+					levelCreator.getInput(event.type,event.key,event.unicode)
 			if event.type == pygame.QUIT:
 				run = False
 				UI.run = False
-
 
 		clock.tick()
 		fps = clock.get_fps()
 
 		levelCreator.delay -= 1/fps
 		screen.fill((255,255,255))
-
-		levelCreator.cColliderObj.renderColliders()
-		levelCreator.createCollider(1/fps)
+		if levelCreator.gettingInput:
+			MapInputText.render(levelCreator.inputString)
+		else:
+			levelCreator.cColliderObj.renderColliders()
+			levelCreator.createCollider(1/fps)
 
 		FPStext.render("FPS: "+str(round(fps)))
 		pygame.display.update()
@@ -85,6 +83,8 @@ def Play():
 		pygame.display.update()
 
 def GUI():
+	Playtext = Text(64,64,"play",60,[255,255,255])
+	Createtext = Text(64,144,"create",60,[255,255,255])
 	while UI.run:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -98,6 +98,8 @@ def GUI():
 		UI.getInput()
 		UI.inputCheck()
 		UI.drawUI()
+		Playtext.render("play")
+		Createtext.render("create")
 		FPStext.render("FPS: "+str(round(fps)))
 
 		pygame.display.update()
